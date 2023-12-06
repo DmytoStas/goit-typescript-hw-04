@@ -1,20 +1,40 @@
-import React, {useReducer} from "react";
+import React, { useReducer } from "react";
+
+const enum Step {
+  Start = "start",
+  Pending = 'pending',
+  Finished = "finished",
+  Idle = 'idle'
+}
+
+interface State {
+  isRequestInProgress: boolean,
+  requestStep: Step
+}
+
+type Action =
+  | { type: 'START_REQUEST' }
+  | { type: 'PENDING_REQUEST' }
+  | { type: 'FINISH_REQUEST' }
+  | { type: 'RESET_REQUEST' };
+
 
 const initialState: State = {
   isRequestInProgress: false,
-  requestStep: 'idle',
+  requestStep: Step.Idle,
 };
+
 
 function requestReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'START_REQUEST':
-      return { ...state, isRequestInProgress: true, requestStep: 'start' };
+      return { ...state, isRequestInProgress: true, requestStep: Step.Start };
     case 'PENDING_REQUEST':
-      return { ...state, isRequestInProgress: true, requestStep: 'pending' };
+      return { ...state, isRequestInProgress: true, requestStep: Step.Pending };
     case 'FINISH_REQUEST':
-      return { ...state, isRequestInProgress: false, requestStep: 'finished' };
+      return { ...state, isRequestInProgress: false, requestStep: Step.Finished };
     case 'RESET_REQUEST':
-      return { ...state, isRequestInProgress: false, requestStep: 'idle' };
+      return { ...state, isRequestInProgress: false, requestStep: Step.Idle };
     default:
       return state;
   }
